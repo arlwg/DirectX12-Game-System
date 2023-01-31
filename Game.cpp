@@ -348,7 +348,7 @@ void Game::LoadTextures()
 	//Eagle
 	auto EagleTex = std::make_unique<Texture>();
 	EagleTex->Name = "EagleTex";
-	EagleTex->Filename = L"../../Textures/Eagle.dds";
+	EagleTex->Filename = L"Textures/Eagle.dds";
 	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
 		mCommandList.Get(), EagleTex->Filename.c_str(),
 		EagleTex->Resource, EagleTex->UploadHeap));
@@ -358,7 +358,7 @@ void Game::LoadTextures()
 	//Raptor
 	auto RaptorTex = std::make_unique<Texture>();
 	RaptorTex->Name = "RaptorTex";
-	RaptorTex->Filename = L"../../Textures/Raptor.dds";
+	RaptorTex->Filename = L"Textures/Raptor.dds";
 	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
 		mCommandList.Get(), RaptorTex->Filename.c_str(),
 		RaptorTex->Resource, RaptorTex->UploadHeap));
@@ -368,7 +368,7 @@ void Game::LoadTextures()
 	//Desert
 	auto DesertTex = std::make_unique<Texture>();
 	DesertTex->Name = "DesertTex";
-	DesertTex->Filename = L"../../Textures/Desert.dds";
+	DesertTex->Filename = L"Textures/Desert.dds";
 	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
 		mCommandList.Get(), DesertTex->Filename.c_str(),
 		DesertTex->Resource, DesertTex->UploadHeap));
@@ -478,8 +478,8 @@ void Game::BuildDescriptorHeaps()
 
 void Game::BuildShadersAndInputLayout()
 {
-	mShaders["standardVS"] = d3dUtil::CompileShader(L"..\\Shaders\\Default.hlsl", nullptr, "VS", "vs_5_1");
-	mShaders["opaquePS"] = d3dUtil::CompileShader(L"..\\Shaders\\Default.hlsl", nullptr, "PS", "ps_5_1");
+	mShaders["standardVS"] = d3dUtil::CompileShader(L"Shaders\\Default.hlsl", nullptr, "VS", "vs_5_1");
+	mShaders["opaquePS"] = d3dUtil::CompileShader(L"Shaders\\Default.hlsl", nullptr, "PS", "ps_5_1");
 
 	mInputLayout =
 	{

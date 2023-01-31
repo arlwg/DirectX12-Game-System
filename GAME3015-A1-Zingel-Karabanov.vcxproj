@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e18b2020-1ed6-49f0-8b46-907e1545d555}</ProjectGuid>
+    <ProjectGuid>{35673662-52ee-48ba-a5a4-85e0cbfe0def}</ProjectGuid>
     <RootNamespace>GAME3015A1ZingelKarabanov</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -127,39 +127,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\A1_test\Aircraft.cpp" />
-    <ClCompile Include="..\..\A1_test\Common\Camera.cpp" />
-    <ClCompile Include="..\..\A1_test\Common\d3dApp.cpp" />
-    <ClCompile Include="..\..\A1_test\Common\d3dUtil.cpp" />
-    <ClCompile Include="..\..\A1_test\Common\DDSTextureLoader.cpp" />
-    <ClCompile Include="..\..\A1_test\Common\GameTimer.cpp" />
-    <ClCompile Include="..\..\A1_test\Common\GeometryGenerator.cpp" />
-    <ClCompile Include="..\..\A1_test\Common\MathHelper.cpp" />
-    <ClCompile Include="..\..\A1_test\Entity.cpp" />
-    <ClCompile Include="..\..\A1_test\FrameResource.cpp" />
-    <ClCompile Include="..\..\A1_test\Game.cpp" />
-    <ClCompile Include="..\..\A1_test\main.cpp" />
-    <ClCompile Include="..\..\A1_test\SceneNode.cpp" />
-    <ClCompile Include="..\..\A1_test\SpriteNode.cpp" />
-    <ClCompile Include="..\..\A1_test\World.cpp" />
+    <ClCompile Include="Aircraft.cpp" />
+    <ClCompile Include="Common\Camera.cpp" />
+    <ClCompile Include="Common\d3dApp.cpp" />
+    <ClCompile Include="Common\d3dUtil.cpp" />
+    <ClCompile Include="Common\DDSTextureLoader.cpp" />
+    <ClCompile Include="Common\GameTimer.cpp" />
+    <ClCompile Include="Common\GeometryGenerator.cpp" />
+    <ClCompile Include="Common\MathHelper.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="FrameResource.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="SceneNode.cpp" />
+    <ClCompile Include="SpriteNode.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\A1_test\Aircraft.hpp" />
-    <ClInclude Include="..\..\A1_test\Common\Camera.h" />
-    <ClInclude Include="..\..\A1_test\Common\d3dApp.h" />
-    <ClInclude Include="..\..\A1_test\Common\d3dUtil.h" />
-    <ClInclude Include="..\..\A1_test\Common\d3dx12.h" />
-    <ClInclude Include="..\..\A1_test\Common\DDSTextureLoader.h" />
-    <ClInclude Include="..\..\A1_test\Common\GameTimer.h" />
-    <ClInclude Include="..\..\A1_test\Common\GeometryGenerator.h" />
-    <ClInclude Include="..\..\A1_test\Common\MathHelper.h" />
-    <ClInclude Include="..\..\A1_test\Common\UploadBuffer.h" />
-    <ClInclude Include="..\..\A1_test\Entity.hpp" />
-    <ClInclude Include="..\..\A1_test\FrameResource.h" />
-    <ClInclude Include="..\..\A1_test\Game.hpp" />
-    <ClInclude Include="..\..\A1_test\SceneNode.hpp" />
-    <ClInclude Include="..\..\A1_test\SpriteNode.h" />
-    <ClInclude Include="..\..\A1_test\World.hpp" />
+    <ClInclude Include="Aircraft.hpp" />
+    <ClInclude Include="Common\Camera.h" />
+    <ClInclude Include="Common\d3dApp.h" />
+    <ClInclude Include="Common\d3dUtil.h" />
+    <ClInclude Include="Common\d3dx12.h" />
+    <ClInclude Include="Common\DDSTextureLoader.h" />
+    <ClInclude Include="Common\GameTimer.h" />
+    <ClInclude Include="Common\GeometryGenerator.h" />
+    <ClInclude Include="Common\MathHelper.h" />
+    <ClInclude Include="Common\UploadBuffer.h" />
+    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="FrameResource.h" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="SceneNode.hpp" />
+    <ClInclude Include="SpriteNode.h" />
+    <ClInclude Include="World.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
