@@ -9,6 +9,8 @@ public:
 	explicit							World(Game* window);
 	void								update(const GameTimer& gt);
 	void								draw();
+	void								Input(const GameTimer& gt);
+	void								BackGroundMovement(const GameTimer& gt);
 
 	//void								loadTextures();
 	void								buildScene();
@@ -35,4 +37,8 @@ private:
 	Aircraft*							mPlayerAircraft;
 	SpriteNode*							mBackground;
 	Aircraft*							mEnemy;
+
+private:
+	float playerSpeed = 3.0f;
+	float backgroundSpeed = 10.0f;
 };
