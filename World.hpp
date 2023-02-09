@@ -2,7 +2,7 @@
 #include "SceneNode.hpp"
 #include "Aircraft.hpp"
 #include "SpriteNode.h"
-
+#include <list>
 class World 
 {
 public:
@@ -11,6 +11,7 @@ public:
 	void								draw();
 	void								Input(const GameTimer& gt);
 	void								BackGroundMovement(const GameTimer& gt);
+	void								EnemiesMovement(const GameTimer& gt);
 
 	//void								loadTextures();
 	void								buildScene();
@@ -37,8 +38,10 @@ private:
 	Aircraft*							mPlayerAircraft;
 	SpriteNode*							mBackground;
 	Aircraft*							mEnemy;
+	Aircraft*							mEnemy2;
 
 private:
 	float playerSpeed = 3.0f;
+	float enemySpeed = 5.0f;
 	float backgroundSpeed = 10.0f;
 };

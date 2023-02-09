@@ -15,6 +15,7 @@ public:
 
 public:
 	Aircraft(Type type, Game* game);
+	
 
 
 private:

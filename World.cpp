@@ -1,8 +1,11 @@
 #include "World.hpp"
+#include <random>
 World::World(Game* game)
 	: mSceneGraph(new SceneNode(game))
 	, mGame(game)
 	, mPlayerAircraft(nullptr)
+	, mEnemy(nullptr)
+	, mEnemy2(nullptr)
 	, mBackground(nullptr)
 	, mWorldBounds(-1.5f, 1.5f, 200.0f, 0.0f) //Left, Right, Down, Up
 	, mSpawnPosition(0.f, 0.f)
@@ -22,21 +25,22 @@ void World::buildScene()
 	std::unique_ptr<Aircraft> player(new Aircraft(Aircraft::Eagle, mGame));
 	mPlayerAircraft = player.get();
 	mPlayerAircraft->setPosition(0, 0.1, 0.0);
-	mPlayerAircraft->setScale(0.5, 0.5, 0.5);
+	mPlayerAircraft->setScale(1.4f, 0.8f, 0.9f);
 	mSceneGraph->attachChild(std::move(player));
 
+
 	std::unique_ptr<Aircraft> enemy1(new Aircraft(Aircraft::Raptor, mGame));
-	auto raptor = enemy1.get();
-	raptor->setPosition(-1.5f, 0.1f, 2);
-	raptor->setScale(0.7f, 0.7f, 0.7f);
-	raptor->setWorldRotation(0, XM_PI, 0);
+	mEnemy = enemy1.get();
+	mEnemy->setPosition(-1.5f, 0.1f, 2);
+	mEnemy->setScale(0.9f, 0.9f, 0.9f);
+	mEnemy->setWorldRotation(0, XM_PI, 0);
 	mSceneGraph->attachChild(std::move(enemy1));
 
 	std::unique_ptr<Aircraft> enemy2(new Aircraft(Aircraft::Raptor, mGame));
-	auto raptor2 = enemy2.get();
-	raptor2->setPosition(1.5f, 0.1, 2);
-	raptor2->setScale(0.7f, 0.7f, 0.7f);
-	raptor2->setWorldRotation(0, XM_PI, 0);
+	mEnemy2 = enemy2.get();
+	mEnemy2->setPosition(1.5f, 0.1, 2);
+	mEnemy2->setScale(0.9f, 0.9f, 0.9f);
+	mEnemy2->setWorldRotation(0, XM_PI, 0);
 	mSceneGraph->attachChild(std::move(enemy2));
 
 	std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(mGame));
@@ -54,6 +58,7 @@ void World::update(const GameTimer& gt)
 	mSceneGraph->update(gt);
 	Input(gt);
 	BackGroundMovement(gt);
+	EnemiesMovement(gt);
 }
 void World::BackGroundMovement(const GameTimer& gt)
 {
@@ -67,6 +72,32 @@ void World::BackGroundMovement(const GameTimer& gt)
 	}
 
 }
+
+
+void World::EnemiesMovement(const GameTimer& gt)
+{
+	const float deltaTime = gt.DeltaTime();
+
+	mEnemy->move(0, 0, -enemySpeed * deltaTime);
+	mEnemy2->move(0, 0, -enemySpeed * deltaTime);
+
+	std::mt19937 generator(static_cast<unsigned int>(std::time(0)));
+	std::uniform_real_distribution<float> distribution(-4.5f, 4.5f);
+	std::uniform_real_distribution<float> distributionZcheck(-14.0f, -6.0f);
+	std::uniform_real_distribution<float> distributionZset(8.0f, 13.0f);
+
+	if (mEnemy->getWorldPosition().z <= distributionZcheck(generator))
+	{
+		mEnemy->setPosition(distribution(generator), 0.1f, distributionZset(generator));
+	}
+	if (mEnemy2->getWorldPosition().z <= distributionZcheck(generator))
+	{
+		mEnemy2->setPosition(distribution(generator), 0.1f, distributionZset(generator));
+	}
+
+}
+
+
 void World::Input(const GameTimer& gt)
 {
 	const float deltaTime = gt.DeltaTime();

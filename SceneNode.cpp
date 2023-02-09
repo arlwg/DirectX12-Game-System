@@ -56,6 +56,7 @@ void SceneNode::draw() const
 void SceneNode::drawCurrent() const
 {
 	//Empty for now
+	game->DrawRenderItems(game->mCommandList.Get(), game->mOpaqueRitems);
 }
 
 void SceneNode::drawChildren() const

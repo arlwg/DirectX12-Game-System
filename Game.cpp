@@ -129,7 +129,7 @@ void Game::Draw(const GameTimer& gt)
 	mCommandList->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
 
 	mWorld.draw();
-	DrawRenderItems(mCommandList.Get(), mOpaqueRitems);
+	//DrawRenderItems(mCommandList.Get(), mOpaqueRitems);
 
 	// Indicate a state transition on the resource usage.
 	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
@@ -193,44 +193,6 @@ void Game::OnKeyboardInput(const GameTimer& gt)
 	XMFLOAT3  oppositef3(-1, -1, -1);
 	XMVECTOR opposite = XMLoadFloat3(&oppositef3);
 
-	//if (GetAsyncKeyState('W') & 0x8000)
-	//{
-	//	bool hit = false;
-
-	//	if (!hit)
-	//	{
-	//		mCamera.Walk(10.0f * dt);
-
-	//	}
-	//}
-
-	//if (GetAsyncKeyState('S') & 0x8000)
-	//{
-	//	bool hit = false;
-	//	if (!hit)
-	//	{
-	//		mCamera.Walk(-10.0f * dt);
-	//	}
-
-	//}
-	//if (GetAsyncKeyState('A') & 0x8000)
-	//{
-	//	bool hit = false;
-	//	if (!hit)
-	//	{
-	//		mCamera.Strafe(-10.0f * dt);
-	//	}
-
-
-	//}
-	//if (GetAsyncKeyState('D') & 0x8000)
-	//{
-	//	bool hit = false;
-	//	if (!hit)
-	//	{
-	//		mCamera.Strafe(10.0f * dt);
-	//	}
-	//}
 
 
 	mCamera.UpdateViewMatrix();
