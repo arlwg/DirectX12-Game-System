@@ -81,21 +81,18 @@ void World::EnemiesMovement(const GameTimer& gt)
 	mEnemy->move(0, 0, -enemySpeed * deltaTime);
 	mEnemy2->move(0, 0, -enemySpeed * deltaTime);
 
-	std::mt19937 generator(static_cast<unsigned int>(std::time(0)));
-	std::uniform_real_distribution<float> distribution(-4.5f, 4.5f);
-	std::uniform_real_distribution<float> distributionZcheck(-14.0f, -6.0f);
-	std::uniform_real_distribution<float> distributionZset(8.0f, 13.0f);
+	
+	ResetEnemyPositions(mEnemy, -4, 1);
+	ResetEnemyPositions(mEnemy2, 0, 4);
 
-	if (mEnemy->getWorldPosition().z <= GenerateRandomNumber(-14.0f, -6.0f))
+}
+
+void World::ResetEnemyPositions(Aircraft* m_aircraft, float lower, float upper)
+{
+	if (m_aircraft->getWorldPosition().z <= -5)
 	{
-		mEnemy->setPosition(GenerateRandomNumber(-4.5, 4.5), 0.1f, GenerateRandomNumber(8, 13));
+		m_aircraft->setPosition(GenerateRandomNumber(lower, upper), 0.1f, GenerateRandomNumber(8, 10));
 	}
-
-	if (mEnemy2->getWorldPosition().z <= GenerateRandomNumber(-14.0f, -6.0f))
-	{
-		mEnemy2->setPosition(GenerateRandomNumber(-4.5, 4.5), 0.1f, GenerateRandomNumber(8, 13));
-	}
-
 }
 
 float World::GenerateRandomNumber(float lower, float upper)

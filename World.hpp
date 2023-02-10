@@ -13,6 +13,8 @@ public:
 	void								BackGroundMovement(const GameTimer& gt);
 	void								EnemiesMovement(const GameTimer& gt);
 	float								GenerateRandomNumber(float lower, float upper);
+	float								GenerateRandomNumber2(float lower, float upper);
+	void                                ResetEnemyPositions(Aircraft* aircraft, float lower, float upper);
 
 	//void								loadTextures();
 	void								buildScene();
