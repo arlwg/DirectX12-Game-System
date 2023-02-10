@@ -12,6 +12,7 @@ public:
 	void								Input(const GameTimer& gt);
 	void								BackGroundMovement(const GameTimer& gt);
 	void								EnemiesMovement(const GameTimer& gt);
+	float								GenerateRandomNumber(float lower, float upper);
 
 	//void								loadTextures();
 	void								buildScene();

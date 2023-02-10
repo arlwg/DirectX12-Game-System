@@ -86,15 +86,24 @@ void World::EnemiesMovement(const GameTimer& gt)
 	std::uniform_real_distribution<float> distributionZcheck(-14.0f, -6.0f);
 	std::uniform_real_distribution<float> distributionZset(8.0f, 13.0f);
 
-	if (mEnemy->getWorldPosition().z <= distributionZcheck(generator))
+	if (mEnemy->getWorldPosition().z <= GenerateRandomNumber(-14.0f, -6.0f))
 	{
-		mEnemy->setPosition(distribution(generator), 0.1f, distributionZset(generator));
-	}
-	if (mEnemy2->getWorldPosition().z <= distributionZcheck(generator))
-	{
-		mEnemy2->setPosition(distribution(generator), 0.1f, distributionZset(generator));
+		mEnemy->setPosition(GenerateRandomNumber(-4.5, 4.5), 0.1f, GenerateRandomNumber(8, 13));
 	}
 
+	if (mEnemy2->getWorldPosition().z <= GenerateRandomNumber(-14.0f, -6.0f))
+	{
+		mEnemy2->setPosition(GenerateRandomNumber(-4.5, 4.5), 0.1f, GenerateRandomNumber(8, 13));
+	}
+
+}
+
+float World::GenerateRandomNumber(float lower, float upper)
+{
+	std::mt19937 generator(static_cast<unsigned int>(std::time(0)));
+	std::uniform_real_distribution<float> distribution(lower, upper);
+
+	return distribution(generator);
 }
 
 
