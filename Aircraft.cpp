@@ -18,14 +18,52 @@ Aircraft::Aircraft(Type type, Game* game) : Entity(game)
 	}
 }
 
+unsigned int Aircraft::getCategory() const
+{
+	switch (mType)
+	{
+	case Type::Eagle:
+		return Category::PlayerAircraft;
+
+	default:
+		return Category::EnemyAircraft;
+	}
+}
+
 void Aircraft::drawCurrent() const
-{	
+{
+	UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
+	UINT matCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(MaterialConstants));
+
+	auto objectCB = game->mCurrFrameResource->ObjectCB->Resource();
+	auto matCB = game->mCurrFrameResource->MaterialCB->Resource();
+
+	if (mAircraftRitem != nullptr)
+	{
+		game->getCmdList()->IASetVertexBuffers(0, 1, &mAircraftRitem->Geo->VertexBufferView());
+		game->getCmdList()->IASetIndexBuffer(&mAircraftRitem->Geo->IndexBufferView());
+		game->getCmdList()->IASetPrimitiveTopology(mAircraftRitem->PrimitiveType);
+
+		CD3DX12_GPU_DESCRIPTOR_HANDLE tex(game->mSrvDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
+		tex.Offset(mAircraftRitem->Mat->DiffuseSrvHeapIndex, game->mCbvSrvDescriptorSize);
+
+		D3D12_GPU_VIRTUAL_ADDRESS objCBAddress =  objectCB->GetGPUVirtualAddress() + (UINT64)mAircraftRitem->ObjCBIndex * objCBByteSize;
+		D3D12_GPU_VIRTUAL_ADDRESS matCBAddress = matCB->GetGPUVirtualAddress() + (UINT64)mAircraftRitem->Mat->MatCBIndex * matCBByteSize;
+
+		game->getCmdList()->SetGraphicsRootDescriptorTable(0, tex);
+		game->getCmdList()->SetGraphicsRootConstantBufferView(1, objCBAddress);
+		game->getCmdList()->SetGraphicsRootConstantBufferView(3, matCBAddress);
+
+		game->getCmdList()->DrawIndexedInstanced(mAircraftRitem->IndexCount, 1, mAircraftRitem->StartIndexLocation, mAircraftRitem->BaseVertexLocation, 0);
+	}
+	
 }
 
 void Aircraft::buildCurrent()
 {
 	auto render = std::make_unique<RenderItem>();
 	renderer = render.get();
+	mAircraftRitem = render.get();
 	renderer->World = getTransform();
 	renderer->ObjCBIndex = game->getRenderItems().size();
 	renderer->Mat = game->getMaterials()[mSprite].get();
@@ -34,6 +72,5 @@ void Aircraft::buildCurrent()
 	renderer->IndexCount = renderer->Geo->DrawArgs["box"].IndexCount;
 	renderer->StartIndexLocation = renderer->Geo->DrawArgs["box"].StartIndexLocation;
 	renderer->BaseVertexLocation = renderer->Geo->DrawArgs["box"].BaseVertexLocation;
-
 	game->getRenderItems().push_back(std::move(render));
 }

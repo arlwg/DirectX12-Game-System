@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.hpp"
 #include <string>
-
+#include "Category.hpp"
 class Aircraft :
     public Entity
 {
@@ -15,7 +15,7 @@ public:
 
 public:
 	Aircraft(Type type, Game* game);
-	
+	virtual unsigned int getCategory() const;
 
 
 private:
@@ -26,4 +26,5 @@ private:
 private:
 	Type				mType;
 	std::string			mSprite;
+	RenderItem* mAircraftRitem;
 };

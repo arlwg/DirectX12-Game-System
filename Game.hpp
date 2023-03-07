@@ -46,16 +46,13 @@ private:
 
 private:
 
-	std::vector<std::unique_ptr<FrameResource>> mFrameResources;
-	FrameResource* mCurrFrameResource = nullptr;
-	int mCurrFrameResourceIndex = 0;
+	
 
-	UINT mCbvSrvDescriptorSize = 0;
+	
 
 	ComPtr<ID3D12RootSignature> mRootSignature = nullptr;
 
-	//step11
-	ComPtr<ID3D12DescriptorHeap> mSrvDescriptorHeap = nullptr;
+	
 
 	std::unordered_map<std::string, std::unique_ptr<MeshGeometry>> mGeometries;
 	std::unordered_map<std::string, std::unique_ptr<Material>> mMaterials;
@@ -89,6 +86,14 @@ private:
 	World mWorld;
 
 public:
+
+
+	UINT mCbvSrvDescriptorSize = 0;
+	ComPtr<ID3D12DescriptorHeap> mSrvDescriptorHeap = nullptr;
+	std::vector<std::unique_ptr<FrameResource>> mFrameResources;
+	FrameResource* mCurrFrameResource = nullptr;
+	int mCurrFrameResourceIndex = 0;
+	ID3D12GraphicsCommandList*  getCmdList() { return mCommandList.Get(); }
 	std::vector<std::unique_ptr<RenderItem>>& getRenderItems() { return mAllRitems; }
 	std::unordered_map<std::string, std::unique_ptr<Material>>& getMaterials() { return mMaterials; }
 	std::unordered_map<std::string, std::unique_ptr<MeshGeometry>>& getGeometries() { return mGeometries; }
