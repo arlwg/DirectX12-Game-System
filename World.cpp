@@ -50,18 +50,16 @@ void World::buildScene()
 	std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(mGame));
 	mBackground = backgroundSprite.get();
 	mBackground->setScale(10.0, 1.0, 350.0);
-	mBackground->setPosition(0, 0, -mBackground->getWorldScale().z /10);
+	mBackground->setPosition(0, -0.3f, -mBackground->getWorldScale().z /10);
 	
 	mSceneGraph->attachChild(std::move(backgroundSprite));
 
 	mSceneGraph->build();
 }
 
-void World::CheckAircraftBounds(const GameTimer& gt)
+void World::CheckAircraftBounds()
 {
 	auto pos = mPlayerAircraft->getWorldPosition();
-
-	std::cout << "x: " << pos.x << " y: " << pos.y << " z: " << pos.z <<  std::endl;
 	
 	float pushPowerX = 0.0f;
 	float pushPowerZ = 0.0f;
@@ -90,17 +88,34 @@ void World::CheckAircraftBounds(const GameTimer& gt)
 	mPlayerAircraft->move(pusher);
 }
 
+void World::AircraftScaling()
+{
+	if (mPlayerAircraft->moveRight)
+	{
+		mPlayerAircraft->setWorldRotation(0, 0.1, -0.5);
+	}
+	if (mPlayerAircraft->moveLeft)
+	{
+		mPlayerAircraft->setWorldRotation(0, -0.1, 0.5);
+	}
+	if ((!mPlayerAircraft->moveLeft && !mPlayerAircraft->moveRight) || (mPlayerAircraft->moveLeft && mPlayerAircraft->moveRight) )
+	{
+		mPlayerAircraft->setWorldRotation(0, 0, 0);
+	}
+}
+
 void World::update(const GameTimer& gt)
 {
 	
 	//mPlayerAircraft->setVelocity(mPlayerAircraft->getVelocity());
 	mSceneGraph->update(gt);
-	CheckAircraftBounds(gt);
+	CheckAircraftBounds();
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph->onCommand(mCommandQueue.pop(), gt);
 	//Input(gt);
 	BackGroundMovement(gt);
 	EnemiesMovement(gt);
+	AircraftScaling();
 }
 void World::BackGroundMovement(const GameTimer& gt)
 {
@@ -110,11 +125,10 @@ void World::BackGroundMovement(const GameTimer& gt)
 	//once it below a certain point reset it to desired position
 	if (mBackground->getWorldPosition().z <= -(mBackground->getWorldScale().z / 10 * 2))
 	{
-		mBackground->setPosition(0, 0, -mBackground->getWorldScale().z / 10);
+		mBackground->setPosition(0, -0.3f, -mBackground->getWorldScale().z / 10);
 	}
 
 }
-
 
 void World::EnemiesMovement(const GameTimer& gt)
 {
@@ -153,7 +167,7 @@ float World::GenerateRandomNumber(float lower, float upper)
 
 void World::Input(const GameTimer& gt)
 {
-	const float deltaTime = gt.DeltaTime();
+	/*const float deltaTime = gt.DeltaTime();
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		bool hit = false;
@@ -185,5 +199,5 @@ void World::Input(const GameTimer& gt)
 		{
 			mPlayerAircraft->move(playerSpeed * deltaTime, 0, 0);
 		}
-	}
+	}*/
 }

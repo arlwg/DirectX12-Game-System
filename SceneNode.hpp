@@ -55,6 +55,8 @@ class SceneNode
 public:
 	typedef std::unique_ptr<SceneNode> Ptr;
 
+	bool					moveRight;
+	bool					moveLeft;
 
 public:
 	SceneNode(Game* game);

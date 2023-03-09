@@ -5,6 +5,8 @@ SceneNode::SceneNode(Game* game)
 	: mChildren()
 	, mParent(nullptr)
 	, game(game)
+	, moveRight(false)
+	, moveLeft(false)
 {
 	mWorldPosition = XMFLOAT3(0, 0, 0);
 	mWorldScaling = XMFLOAT3(1, 1, 1);
@@ -171,4 +173,19 @@ void SceneNode::move(XMFLOAT3 number)
 	mWorldPosition.x += number.x * dT;
 	mWorldPosition.y += number.y * dT;
 	mWorldPosition.z += number.z * dT;
+
+
+	if (number.x > 0)
+	{
+		moveRight = true;
+	}
+	if(number.x < 0)
+	{
+		moveLeft = true;
+	}
+	if (number.x == 0)
+	{
+		moveRight = false;
+		moveLeft = false;
+	}
 }

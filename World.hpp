@@ -22,7 +22,8 @@ public:
 	//void								loadTextures();
 	void								buildScene();
 private:
-	void								CheckAircraftBounds(const GameTimer& gt);
+	void								CheckAircraftBounds();
+	void								AircraftScaling();
 
 private:
 	enum Layer
@@ -48,7 +49,6 @@ private:
 	Aircraft*							mEnemy2;
 
 private:
-	float playerSpeed = 10.0f;
 	float enemySpeed = 5.0f;
 	float backgroundSpeed = 10.0f;
 };
