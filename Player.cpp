@@ -18,7 +18,7 @@ struct AircraftMover
 
 	void operator() (Aircraft& aircraft, const GameTimer&) const
 	{
-		aircraft.accelerate(velocity);
+		aircraft.move(velocity);
 	}
 
 	XMFLOAT3 velocity;
@@ -117,7 +117,7 @@ char Player::getAssignedKey(Action action) const
 
 void Player::initializeActions()
 {
-	const float playerSpeed = 1.f;
+	const float playerSpeed = 5.f;
 
 	mActionBinding[MoveLeft].action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f, 0.0f));
 	mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(+playerSpeed, 0.f, 0.0f));

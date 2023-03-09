@@ -45,6 +45,7 @@ void SceneNode::updateChildren(const GameTimer& gt)
 	for (Ptr& child : mChildren)
 	{
 		child->update(gt);
+		child->dT = gt.DeltaTime();
 	}
 }
 
@@ -164,4 +165,10 @@ void SceneNode::move(float x, float y, float z)
 	mWorldPosition.x += x;
 	mWorldPosition.y += y;
 	mWorldPosition.z += z;
+}
+void SceneNode::move(XMFLOAT3 number)
+{
+	mWorldPosition.x += number.x * dT;
+	mWorldPosition.y += number.y * dT;
+	mWorldPosition.z += number.z * dT;
 }

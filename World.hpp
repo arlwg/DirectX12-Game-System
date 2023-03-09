@@ -47,7 +47,7 @@ private:
 	Aircraft*							mEnemy2;
 
 private:
-	float playerSpeed = 3.0f;
+	float playerSpeed = 10.0f;
 	float enemySpeed = 5.0f;
 	float backgroundSpeed = 10.0f;
 };
