@@ -1,5 +1,8 @@
 #include "World.hpp"
 #include <random>
+
+#include "CommandQueue.h"
+
 World::World(Game* game)
 	: mSceneGraph(new SceneNode(game))
 	, mGame(game)
@@ -55,8 +58,13 @@ void World::buildScene()
 
 void World::update(const GameTimer& gt)
 {
+	
+	//mPlayerAircraft->setVelocity(mPlayerAircraft->getVelocity());
 	mSceneGraph->update(gt);
-	Input(gt);
+
+	while (!mCommandQueue.isEmpty())
+		mSceneGraph->onCommand(mCommandQueue.pop(), gt);
+	//Input(gt);
 	BackGroundMovement(gt);
 	EnemiesMovement(gt);
 }
@@ -85,6 +93,11 @@ void World::EnemiesMovement(const GameTimer& gt)
 	ResetEnemyPositions(mEnemy, -4, 1);
 	ResetEnemyPositions(mEnemy2, 0, 4);
 
+}
+
+CommandQueue& World::getCommandQueue()
+{
+	return mCommandQueue;
 }
 
 void World::ResetEnemyPositions(Aircraft* m_aircraft, float lower, float upper)

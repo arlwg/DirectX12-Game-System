@@ -1,5 +1,6 @@
 #include "Game.hpp"
 
+class CommandQueue;
 const int gNumFrameResources = 3;
 
 Game::Game(HINSTANCE hInstance)
@@ -66,6 +67,11 @@ void Game::OnResize()
 void Game::Update(const GameTimer& gt)
 {
 	OnKeyboardInput(gt);
+	
+
+	CommandQueue& commands = mWorld.getCommandQueue();
+	mPlayer.handleEvent(commands);
+	mPlayer.handleRealtimeInput(commands);
 	mWorld.update(gt);
 	//UpdateCamera(gt);
 

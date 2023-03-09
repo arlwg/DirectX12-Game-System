@@ -3,6 +3,9 @@
 #include "Aircraft.hpp"
 #include "SpriteNode.h"
 #include <list>
+
+#include "CommandQueue.h"
+
 class World 
 {
 public:
@@ -12,8 +15,8 @@ public:
 	void								Input(const GameTimer& gt);
 	void								BackGroundMovement(const GameTimer& gt);
 	void								EnemiesMovement(const GameTimer& gt);
+	CommandQueue& getCommandQueue();
 	float								GenerateRandomNumber(float lower, float upper);
-	float								GenerateRandomNumber2(float lower, float upper);
 	void                                ResetEnemyPositions(Aircraft* aircraft, float lower, float upper);
 
 	//void								loadTextures();
@@ -31,7 +34,7 @@ private:
 
 private:
 	Game*								mGame;
-
+	CommandQueue						mCommandQueue;
 	SceneNode*							mSceneGraph;
 	std::array<SceneNode*, LayerCount>	mSceneLayers;
 

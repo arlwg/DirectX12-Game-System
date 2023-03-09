@@ -1,4 +1,5 @@
 #pragma once
+#include "Command.h"
 #include "Common/d3dApp.h"
 #include "Common/MathHelper.h"
 #include "Common/UploadBuffer.h"
@@ -64,7 +65,8 @@ public:
 	void					update(const GameTimer& gt);
 	void					draw() const;
 	void					build();
-
+	void					onCommand(const Command& command, const GameTimer& gt);
+	virtual unsigned int	getCategory() const;
 	XMFLOAT3				getWorldPosition() const;
 	void					setPosition(float x, float y, float z);
 	XMFLOAT3				getWorldRotation() const;

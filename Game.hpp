@@ -1,3 +1,4 @@
+#include "Player.hpp"
 #include "World.hpp"
 
 class Game : public D3DApp
@@ -84,7 +85,7 @@ private:
 	POINT mLastMousePos;
 	Camera mCamera;
 	World mWorld;
-
+	Player mPlayer;
 public:
 
 

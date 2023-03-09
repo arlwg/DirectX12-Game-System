@@ -34,6 +34,7 @@ void SceneNode::update(const GameTimer& gt)
 	updateChildren(gt);
 }
 
+//For when we use different scenes / states.
 void SceneNode::updateCurrent(const GameTimer& gt)
 {
 	// Do nothing by default
@@ -71,6 +72,22 @@ void SceneNode::build()
 {
 	buildCurrent();
 	buildChildren();
+}
+
+void SceneNode::onCommand(const Command& command, const GameTimer& gt)
+{
+	// Command current node, if category matches
+	if (command.category & getCategory())
+		command.action(*this, gt);
+
+	// Command children
+	for (Ptr& child : mChildren)
+		child->onCommand(command, gt);
+}
+
+unsigned int SceneNode::getCategory() const
+{
+	return Category::Scene;
 }
 
 void SceneNode::buildCurrent()
