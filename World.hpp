@@ -21,7 +21,8 @@ public:
 
 	//void								loadTextures();
 	void								buildScene();
-
+private:
+	void								CheckAircraftBounds(const GameTimer& gt);
 
 private:
 	enum Layer

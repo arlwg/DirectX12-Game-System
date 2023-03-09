@@ -2,6 +2,7 @@
 #include <random>
 
 #include "CommandQueue.h"
+#include <iostream>
 
 World::World(Game* game)
 	: mSceneGraph(new SceneNode(game))
@@ -56,12 +57,45 @@ void World::buildScene()
 	mSceneGraph->build();
 }
 
+void World::CheckAircraftBounds(const GameTimer& gt)
+{
+	auto pos = mPlayerAircraft->getWorldPosition();
+
+	std::cout << "x: " << pos.x << " y: " << pos.y << " z: " << pos.z <<  std::endl;
+	
+	float pushPowerX = 0.0f;
+	float pushPowerZ = 0.0f;
+	if (pos.x > 1.93356)
+	{
+		//push to the left
+		pushPowerX = -5.0f;
+	}
+	if (pos.x < -1.80393)
+	{
+		//push to the right
+		pushPowerX = 5.0f;
+	}
+
+	if (pos.z > 1)
+	{
+		//push back
+		pushPowerZ = -5.0f;
+	}
+	if (pos.z < -1.3977)
+	{
+		//push forward
+		pushPowerZ = 5.0f;
+	}
+	XMFLOAT3 pusher = XMFLOAT3(pushPowerX, 0, pushPowerZ);
+	mPlayerAircraft->move(pusher);
+}
+
 void World::update(const GameTimer& gt)
 {
 	
 	//mPlayerAircraft->setVelocity(mPlayerAircraft->getVelocity());
 	mSceneGraph->update(gt);
-
+	CheckAircraftBounds(gt);
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph->onCommand(mCommandQueue.pop(), gt);
 	//Input(gt);
