@@ -29,21 +29,21 @@ void World::buildScene()
 	std::unique_ptr<Aircraft> player(new Aircraft(Aircraft::Eagle, mGame));
 	mPlayerAircraft = player.get();
 	mPlayerAircraft->setPosition(0, 0.1, 0.0);
-	mPlayerAircraft->setScale(1.4f, 0.8f, 0.9f);
+	mPlayerAircraft->setScale(0.0f, 0.0f, 0.0f);
 	mSceneGraph->attachChild(std::move(player));
 
 
 	std::unique_ptr<Aircraft> enemy1(new Aircraft(Aircraft::Raptor, mGame));
 	mEnemy = enemy1.get();
 	mEnemy->setPosition(-1.5f, 0.1f, 2);
-	mEnemy->setScale(0.9f, 0.9f, 0.9f);
+	mEnemy->setScale(0.0f, 0.0f, 0.0f);
 	mEnemy->setWorldRotation(0, XM_PI, 0);
 	mSceneGraph->attachChild(std::move(enemy1));
 
 	std::unique_ptr<Aircraft> enemy2(new Aircraft(Aircraft::Raptor, mGame));
 	mEnemy2 = enemy2.get();
 	mEnemy2->setPosition(1.5f, 0.1, 2);
-	mEnemy2->setScale(0.9f, 0.9f, 0.9f);
+	mEnemy2->setScale(0.0f, 0.0f, 0.0f);
 	mEnemy2->setWorldRotation(0, XM_PI, 0);
 	mSceneGraph->attachChild(std::move(enemy2));
 

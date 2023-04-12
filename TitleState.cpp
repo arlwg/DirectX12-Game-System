@@ -5,42 +5,14 @@
 
 TitleState::TitleState(StateStack* stack, Context* context)
 	: State(stack, context)
-	, mShowText(true)
-	, mBackgroundSprite(nullptr)
-	//, mText(nullptr)
+	, mScreenTex(nullptr)
+
 {
-	//Clear items, and resources.
-	mContext->mGame->mAllRitems.clear();
-	mContext->mGame->mOpaqueRitems.clear();
-	mContext->mGame->mFrameResources.clear();
-	// Build our materials
-	mContext->mGame->BuildMaterials();
-
-	std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(mContext->mGame));
-	mBackgroundSprite = backgroundSprite.get();
-	mBackgroundSprite->setScale(103.0, 13.0, 350.0);
-	mBackgroundSprite->setPosition(0, -0.3f, 0);
-
-	mSceneGraph->attachChild(std::move(backgroundSprite));
-
-	mSceneGraph->build();
-
-	mSceneGraph->build();
-	for (auto& e : mContext->mGame->mAllRitems)
-		mContext->mGame->mOpaqueRitems.push_back(e.get());
-
-	mContext->mGame->BuildFrameResources();
-
+	buildState();
 }
 
 void TitleState::draw()
 {
-	/*for (int i = 0; i < 1000; i++)
-	{
-		std::wstring text = L"Here";
-
-		::OutputDebugString(text.c_str());
-	}*/
 	mSceneGraph->draw();
 }
 
@@ -69,6 +41,33 @@ bool TitleState::handleEvent(Command& event)
 
 void TitleState::buildState()
 {
+	/// //////////////////////////////////////////////////
+	mContext->mGame->mAllRitems.clear();				//
+	mContext->mGame->mOpaqueRitems.clear();				// Clear all items
+	mContext->mGame->mFrameResources.clear();			//  
+	mContext->mGame->BuildMaterials();					//
+	/// //////////////////////////////////////////////////
+
+
+	std::unique_ptr<ScrenTexture> screen(new ScrenTexture(ScrenTexture::Title, mContext->mGame));
+	mScreenTex = screen.get();
+	mScreenTex->setPosition(0, 3, -2);//mCamera.SetPosition(0, 4.3f, -2.9f);
+	mScreenTex->setWorldRotation(-0.9, 0, 0);
+	mScreenTex->setScale(2.5f, 1.5f, 1.5f);
+	mSceneGraph->attachChild(std::move(screen));
+
+
+
+
+	//////////////////////////////////////////////////////////////////
+	mSceneGraph->build();											//
+	for (auto& e : mContext->mGame->mAllRitems)						//
+		mContext->mGame->mOpaqueRitems.push_back(e.get());			// Build all items
+																	//
+	mContext->mGame->BuildFrameResources();							//
+	//////////////////////////////////////////////////////////////////
 }
+
+
 
 

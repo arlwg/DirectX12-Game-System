@@ -322,35 +322,50 @@ void Game::UpdateMainPassCB(const GameTimer& gt)
 
 void Game::LoadTextures()
 {
-	//Eagle
-	auto EagleTex = std::make_unique<Texture>();
-	EagleTex->Name = "EagleTex";
-	EagleTex->Filename = L"Textures/Eagle.dds";
-	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
-		mCommandList.Get(), EagleTex->Filename.c_str(),
-		EagleTex->Resource, EagleTex->UploadHeap));
+	//previously created
+	{
+		//Eagle
+		auto EagleTex = std::make_unique<Texture>();
+		EagleTex->Name = "EagleTex";
+		EagleTex->Filename = L"Textures/Eagle.dds";
+		ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
+			mCommandList.Get(), EagleTex->Filename.c_str(),
+			EagleTex->Resource, EagleTex->UploadHeap));
 
-	mTextures[EagleTex->Name] = std::move(EagleTex);
+		mTextures[EagleTex->Name] = std::move(EagleTex);
 
-	//Raptor
-	auto RaptorTex = std::make_unique<Texture>();
-	RaptorTex->Name = "RaptorTex";
-	RaptorTex->Filename = L"Textures/Raptor.dds";
-	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
-		mCommandList.Get(), RaptorTex->Filename.c_str(),
-		RaptorTex->Resource, RaptorTex->UploadHeap));
+		//Raptor
+		auto RaptorTex = std::make_unique<Texture>();
+		RaptorTex->Name = "RaptorTex";
+		RaptorTex->Filename = L"Textures/Raptor.dds";
+		ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
+			mCommandList.Get(), RaptorTex->Filename.c_str(),
+			RaptorTex->Resource, RaptorTex->UploadHeap));
 
-	mTextures[RaptorTex->Name] = std::move(RaptorTex);
+		mTextures[RaptorTex->Name] = std::move(RaptorTex);
 
-	//Desert
-	auto DesertTex = std::make_unique<Texture>();
-	DesertTex->Name = "DesertTex";
-	DesertTex->Filename = L"Textures/Desert.dds";
-	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
-		mCommandList.Get(), DesertTex->Filename.c_str(),
-		DesertTex->Resource, DesertTex->UploadHeap));
+		//Desert
+		auto DesertTex = std::make_unique<Texture>();
+		DesertTex->Name = "DesertTex";
+		DesertTex->Filename = L"Textures/Desert.dds";
+		ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
+			mCommandList.Get(), DesertTex->Filename.c_str(),
+			DesertTex->Resource, DesertTex->UploadHeap));
 
-	mTextures[DesertTex->Name] = std::move(DesertTex);
+		mTextures[DesertTex->Name] = std::move(DesertTex);
+	}
+
+	////////////////////////////////////////////////////////////////////////
+	//                         TitleScreen								  //
+	auto TitleTex = std::make_unique<Texture>();						  //
+	TitleTex->Name = "TitleTex";										  //
+	TitleTex->Filename = L"Textures/TitleDDS.dds";						  //
+	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),	  //
+		mCommandList.Get(), TitleTex->Filename.c_str(),					  //
+		TitleTex->Resource, TitleTex->UploadHeap));						  //
+																		  //
+	mTextures[TitleTex->Name] = std::move(TitleTex);					  //
+	////////////////////////////////////////////////////////////////////////
 }
 
 void Game::BuildRootSignature()
@@ -403,7 +418,7 @@ void Game::BuildDescriptorHeaps()
 	// Create the SRV heap.
 	//
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	srvHeapDesc.NumDescriptors = 3;
+	srvHeapDesc.NumDescriptors = 4;
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	ThrowIfFailed(md3dDevice->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&mSrvDescriptorHeap)));
@@ -416,6 +431,7 @@ void Game::BuildDescriptorHeaps()
 	auto EagleTex = mTextures["EagleTex"]->Resource;
 	auto RaptorTex = mTextures["RaptorTex"]->Resource;
 	auto DesertTex = mTextures["DesertTex"]->Resource;
+	auto TitleTex = mTextures["TitleTex"]->Resource;
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 
@@ -450,6 +466,13 @@ void Game::BuildDescriptorHeaps()
 	hDescriptor.Offset(1, mCbvSrvDescriptorSize);
 	srvDesc.Format = DesertTex->GetDesc().Format;
 	md3dDevice->CreateShaderResourceView(DesertTex.Get(), &srvDesc, hDescriptor);
+
+	//Title Descriptor
+	hDescriptor.Offset(1, mCbvSrvDescriptorSize);
+	srvDesc.Format = TitleTex->GetDesc().Format;
+	md3dDevice->CreateShaderResourceView(TitleTex.Get(), &srvDesc, hDescriptor);
+
+
 
 }
 
@@ -592,6 +615,16 @@ void Game::BuildMaterials()
 
 	mMaterials["Desert"] = std::move(Desert);
 
+	auto Title = std::make_unique<Material>();
+	Title->Name = "Title";
+	Title->MatCBIndex = 3;
+	Title->DiffuseSrvHeapIndex = 3;
+	Title->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	Title->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
+	Title->Roughness = 0.2f;
+
+	mMaterials["Title"] = std::move(Title);
+
 }
 
 void Game::BuildRenderItems()
@@ -607,6 +640,8 @@ void Game::registerStates()
 {
 	mStateStack.registerState<TitleState>(States::Title);
 }
+
+
 
 void Game::DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<RenderItem*>& ritems)
 {

@@ -2,6 +2,7 @@
 #include "State.h"
 #include "SpriteNode.h"
 #include "Common/d3dApp.h"
+#include "ScreenTexture.h"
 class TitleState : public State
 {
 public:
@@ -13,8 +14,7 @@ public:
 	virtual void		buildState() override;
 
 private:
-	SpriteNode* mBackgroundSprite;
-	//SpriteNode* mText;
-	bool	mShowText;
+
+	ScrenTexture* mScreenTex;
 };
 

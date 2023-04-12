@@ -44,6 +44,9 @@ public:
 	void BuildMaterials();
 	void BuildRenderItems();
 	void registerStates();
+	void registerMaterial(std::string Name, float Roughness);
+	void registerTexture(std::string Name, std::string fileName);
+
 
 	std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
 
@@ -91,7 +94,7 @@ public:
 	StateStack	mStateStack;
 public:
 
-
+	int materialIndex = 0;
 	UINT mCbvSrvDescriptorSize = 0;
 	ComPtr<ID3D12DescriptorHeap> mSrvDescriptorHeap = nullptr;
 	std::vector<std::unique_ptr<FrameResource>> mFrameResources;
