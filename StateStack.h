@@ -29,7 +29,7 @@ public:
 
 	void				update(const GameTimer& dt);
 	void				draw();
-	void				handleEvent(Command& event);
+	void				handleEvent(WPARAM btnState);
 
 	void				pushState(States::ID stateID);
 	void				popState();

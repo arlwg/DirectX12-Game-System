@@ -9,6 +9,9 @@ ScrenTexture::ScrenTexture(Type type, Game* game) : Entity(game)
 	case (Title):
 		mSprite = "Title";
 		break;
+	case(Menu):
+		mSprite = "Menu";
+		break;
 	case (Pause):
 		mSprite = "Pause";
 		break;
