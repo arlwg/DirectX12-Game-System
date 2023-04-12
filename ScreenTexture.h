@@ -9,6 +9,7 @@ public:
 	enum Type
 	{
 		Title,
+		Menu,
 		Pause,
 	};
 

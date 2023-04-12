@@ -24,9 +24,9 @@ bool TitleState::update(const GameTimer& gt)
 
 bool TitleState::handleEvent(WPARAM btnState)
 {
-	/*requestStackPop();
+	requestStackPop();
 
-	requestStackPush(States::Menu);*/
+	requestStackPush(States::Menu);
 
 	/*std::wstring text = L"Here";
 		
