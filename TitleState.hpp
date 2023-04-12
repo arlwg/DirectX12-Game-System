@@ -10,7 +10,7 @@ public:
 
 	virtual void		draw();
 	virtual bool		update(const GameTimer& gt) override;
-	virtual bool		handleEvent(Command& event) override;
+	virtual bool		handleEvent(WPARAM btnState) override;
 	virtual void		buildState() override;
 
 private:

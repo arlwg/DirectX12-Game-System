@@ -18,14 +18,11 @@ void TitleState::draw()
 
 bool TitleState::update(const GameTimer& gt)
 {
-	/*std::wstring text = L"Here";
-
-	::OutputDebugString(text.c_str());*/
 	mSceneGraph->update(gt);
 	return true;
 }
 
-bool TitleState::handleEvent(Command& event)
+bool TitleState::handleEvent(WPARAM btnState)
 {
 	/*requestStackPop();
 

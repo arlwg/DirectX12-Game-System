@@ -31,12 +31,12 @@ void StateStack::draw()
 		state->draw();
 }
 
-void StateStack::handleEvent(Command& event)
+void StateStack::handleEvent(WPARAM btnState)
 {
 	// Iterate from top to bottom, stop as soon as handleEvent() returns false
 	for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr)
 	{
-		if (!(*itr)->handleEvent(event))
+		if (!(*itr)->handleEvent(btnState))
 			break;
 	}
 	

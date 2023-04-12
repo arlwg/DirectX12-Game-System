@@ -197,6 +197,11 @@ void Game::OnMouseMove(WPARAM btnState, int x, int y)
 	mLastMousePos.y = y;
 }
 
+void Game::OnKeyPressed(WPARAM btnState)
+{
+	mStateStack.handleEvent(btnState);
+}
+
 void Game::OnKeyboardInput(const GameTimer& gt)
 {
 	const float dt = gt.DeltaTime();
