@@ -119,6 +119,53 @@ void GameState::ResetEnemyPositions(Aircraft* m_aircraft, float lower, float upp
     }
 }
 
+void GameState::CheckAircraftBounds()
+{
+    auto pos = mPlayerAircraft->getWorldPosition();
+	
+    float pushPowerX = 0.0f;
+    float pushPowerZ = 0.0f;
+    if (pos.x > 1.93356)
+    {
+        //push to the left
+        pushPowerX = -5.0f;
+    }
+    if (pos.x < -1.80393)
+    {
+        //push to the right
+        pushPowerX = 5.0f;
+    }
+
+    if (pos.z > 1)
+    {
+        //push back
+        pushPowerZ = -5.0f;
+    }
+    if (pos.z < -1.3977)
+    {
+        //push forward
+        pushPowerZ = 5.0f;
+    }
+    XMFLOAT3 pusher = XMFLOAT3(pushPowerX, 0, pushPowerZ);
+    mPlayerAircraft->move(pusher);
+}
+
+void GameState::AircraftScaling()
+{
+    if (mPlayerAircraft->moveRight)
+    {
+        mPlayerAircraft->setWorldRotation(0, 0.1, -0.5);
+    }
+    if (mPlayerAircraft->moveLeft)
+    {
+        mPlayerAircraft->setWorldRotation(0, -0.1, 0.5);
+    }
+    if ((!mPlayerAircraft->moveLeft && !mPlayerAircraft->moveRight) || (mPlayerAircraft->moveLeft && mPlayerAircraft->moveRight) )
+    {
+        mPlayerAircraft->setWorldRotation(0, 0, 0);
+    }
+}
+
 
 
 
