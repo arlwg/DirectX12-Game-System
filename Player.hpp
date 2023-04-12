@@ -23,11 +23,11 @@ public:
 	void					assignKey(Action action, char key);
 	char					getAssignedKey(Action action) const;
 
-private:
+public:
 	void					initializeActions();
 	static bool				isRealtimeAction(Action action);
 	
-private:
+public:
 	std::map<char, Action>					mKeyBinding;
 	std::map<Action, Command>				mActionBinding;
 	std::map<char, bool>					mKeyFlag;

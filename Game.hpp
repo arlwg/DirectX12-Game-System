@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include "World.hpp"
+#include "StateStack.h"
 
 class Game : public D3DApp
 {
@@ -11,8 +12,9 @@ public:
 
 	virtual bool Initialize()override;
 	void DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<RenderItem*>& ritems);
-private:
+public:
 	virtual void OnResize()override;
+
 	virtual void Update(const GameTimer& gt)override;
 	virtual void Draw(const GameTimer& gt)override;
 
@@ -41,11 +43,15 @@ private:
 	void BuildFrameResources();
 	void BuildMaterials();
 	void BuildRenderItems();
-	
+	void registerStates();
+	void registerMaterial(std::string Name, int index, float Roughness);
+	void registerMaterial(std::string Name, int index);
+	void registerTexture(std::string Name, std::string fileName);
+
 
 	std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
 
-private:
+public:
 
 	
 
@@ -86,9 +92,10 @@ private:
 	Camera mCamera;
 	World mWorld;
 	Player mPlayer;
+	StateStack	mStateStack;
 public:
 
-
+	int materialIndex = 0;
 	UINT mCbvSrvDescriptorSize = 0;
 	ComPtr<ID3D12DescriptorHeap> mSrvDescriptorHeap = nullptr;
 	std::vector<std::unique_ptr<FrameResource>> mFrameResources;
