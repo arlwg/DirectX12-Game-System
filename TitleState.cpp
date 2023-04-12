@@ -51,8 +51,8 @@ void TitleState::buildState()
 
 	std::unique_ptr<ScrenTexture> screen(new ScrenTexture(ScrenTexture::Title, mContext->mGame));
 	mScreenTex = screen.get();
-	mScreenTex->setPosition(0, 3, -2);//mCamera.SetPosition(0, 4.3f, -2.9f);
-	mScreenTex->setWorldRotation(-0.9, 0, 0);
+	mScreenTex->setPosition(0, 3.1, -2);//mCamera.SetPosition(0, 4.3f, -2.9f);
+	mScreenTex->setWorldRotation(-0.6, 0, 0);
 	mScreenTex->setScale(2.5f, 1.5f, 1.5f);
 	mSceneGraph->attachChild(std::move(screen));
 

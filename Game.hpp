@@ -44,7 +44,8 @@ public:
 	void BuildMaterials();
 	void BuildRenderItems();
 	void registerStates();
-	void registerMaterial(std::string Name, float Roughness);
+	void registerMaterial(std::string Name, int index, float Roughness);
+	void registerMaterial(std::string Name, int index);
 	void registerTexture(std::string Name, std::string fileName);
 
 
