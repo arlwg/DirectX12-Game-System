@@ -1,11 +1,14 @@
 #include "Game.hpp"
-
+#include "State.h"
+#include "StateIdentifiers.h"
+#include "TitleState.hpp"
 class CommandQueue;
 const int gNumFrameResources = 3;
 
 Game::Game(HINSTANCE hInstance)
 	: D3DApp(hInstance)
 	, mWorld(this)
+	, mStateStack(State::Context(this,&mPlayer))
 {
 }
 
@@ -49,7 +52,8 @@ bool Game::Initialize()
 
 	// Wait until initialization is complete.
 	FlushCommandQueue();
-
+	registerStates();
+	mStateStack.pushState(States::Title);
 	return true;
 }
 
@@ -67,12 +71,16 @@ void Game::OnResize()
 void Game::Update(const GameTimer& gt)
 {
 	OnKeyboardInput(gt);
-	
-
-	CommandQueue& commands = mWorld.getCommandQueue();
-	mPlayer.handleEvent(commands);
-	mPlayer.handleRealtimeInput(commands);
-	mWorld.update(gt);
+	mStateStack.update(gt);
+	if (mStateStack.isEmpty())
+	{
+		PostQuitMessage(0);
+		return;
+	}
+	//CommandQueue& commands = mWorld.getCommandQueue();
+	/*mPlayer.handleEvent(commands);
+	mPlayer.handleRealtimeInput(commands);*/
+	//mWorld.update(gt);
 	//UpdateCamera(gt);
 
 	// Cycle through the circular frame resource array.
@@ -98,7 +106,7 @@ void Game::Update(const GameTimer& gt)
 void Game::Draw(const GameTimer& gt)
 {
 	auto cmdListAlloc = mCurrFrameResource->CmdListAlloc;
-
+	
 	// Reuse the memory associated with command recording.
 	// We can only reset when the associated command lists have finished execution on the GPU.
 	ThrowIfFailed(cmdListAlloc->Reset());
@@ -133,8 +141,8 @@ void Game::Draw(const GameTimer& gt)
 
 	auto passCB = mCurrFrameResource->PassCB->Resource();
 	mCommandList->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
-
-	mWorld.draw();
+	mStateStack.draw();
+	//mWorld.draw();
 	//DrawRenderItems(mCommandList.Get(), mOpaqueRitems);
 
 	// Indicate a state transition on the resource usage.
@@ -593,6 +601,11 @@ void Game::BuildRenderItems()
 	// All the render items are opaque.
 	for (auto& e : mAllRitems)
 		mOpaqueRitems.push_back(e.get());
+}
+
+void Game::registerStates()
+{
+	mStateStack.registerState<TitleState>(States::Title);
 }
 
 void Game::DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<RenderItem*>& ritems)
