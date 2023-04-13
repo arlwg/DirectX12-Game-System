@@ -50,6 +50,8 @@ public:
 	void registerTexture(std::string Name, std::string fileName);
 
 
+
+
 	std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
 
 public:
@@ -94,7 +96,9 @@ public:
 	World mWorld;
 	Player mPlayer;
 	StateStack	mStateStack;
+	
 public:
+
 
 	int materialIndex = 0;
 	UINT mCbvSrvDescriptorSize = 0;
@@ -108,4 +112,11 @@ public:
 	std::unordered_map<std::string, std::unique_ptr<MeshGeometry>>& getGeometries() { return mGeometries; }
 	// Render items divided by PSO.
 	std::vector<RenderItem*> mOpaqueRitems;
+
+	public:
+		bool ReloadGameState = false;
+		XMFLOAT3 playerPos = XMFLOAT3(0,0,0);
+		XMFLOAT3 enemy1Pos = XMFLOAT3(0, 0, 0);
+		XMFLOAT3 enemy2Pos = XMFLOAT3(0, 0, 0);
+		XMFLOAT3 bgPos = XMFLOAT3(0, 0, 0);
 };

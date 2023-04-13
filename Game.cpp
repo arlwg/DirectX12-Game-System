@@ -4,6 +4,7 @@
 #include "TitleState.hpp"
 #include "MenuState.h"
 #include "GameState.hpp"
+#include "PauseState.h"
 class CommandQueue;
 const int gNumFrameResources = 3;
 
@@ -346,6 +347,8 @@ void Game::LoadTextures()
 	registerTexture("DesertTex", "Desert.dds");
 	registerTexture("TitleTex", "TitleDDS.dds");
 	registerTexture("MenuTex", "MenuDDS.dds");
+	registerTexture("PauseTex", "PauseDDS.dds");
+	
 	
 }
 
@@ -399,7 +402,7 @@ void Game::BuildDescriptorHeaps()
 	// Create the SRV heap.
 	//
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	srvHeapDesc.NumDescriptors = 5;
+	srvHeapDesc.NumDescriptors = 6;
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	ThrowIfFailed(md3dDevice->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&mSrvDescriptorHeap)));
@@ -414,6 +417,7 @@ void Game::BuildDescriptorHeaps()
 	auto DesertTex = mTextures["DesertTex"]->Resource;
 	auto TitleTex = mTextures["TitleTex"]->Resource;
 	auto MenuTex = mTextures["MenuTex"]->Resource;
+	auto PauseTex = mTextures["PauseTex"]->Resource;
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 
@@ -458,6 +462,11 @@ void Game::BuildDescriptorHeaps()
 	hDescriptor.Offset(1, mCbvSrvDescriptorSize);
 	srvDesc.Format = MenuTex->GetDesc().Format;
 	md3dDevice->CreateShaderResourceView(MenuTex.Get(), &srvDesc, hDescriptor);
+
+	//Pause Descriptor
+	hDescriptor.Offset(1, mCbvSrvDescriptorSize);
+	srvDesc.Format = PauseTex->GetDesc().Format;
+	md3dDevice->CreateShaderResourceView(PauseTex.Get(), &srvDesc, hDescriptor);
 
 
 
@@ -602,6 +611,7 @@ void Game::BuildMaterials()
 	registerMaterial("Desert",2);
 	registerMaterial("Title",3, 1.0f);
 	registerMaterial("Menu", 4, 1.0f);
+	registerMaterial("Pause", 5, 1.0f);
 }
 
 void Game::BuildRenderItems()
@@ -618,6 +628,7 @@ void Game::registerStates()
 	mStateStack.registerState<TitleState>(States::Title);
 	mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<GameState>(States::Game);
+	mStateStack.registerState<PauseState>(States::Pause);
 }
 
 

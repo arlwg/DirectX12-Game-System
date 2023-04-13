@@ -2,6 +2,8 @@
 #include "Game.hpp"
 #include <random>
 #include <iostream>
+#include "StateIdentifiers.h"
+#include "ResourceIdentifiers.h"
 
 GameState::GameState(StateStack* stack, Context* context)
 	: State(stack, context)
@@ -27,25 +29,29 @@ bool GameState::update(const GameTimer& gt)
 {
 	const float deltaTime = gt.DeltaTime();
 	//mPlayerAircraft->setVelocity(mPlayerAircraft->getVelocity());
-	mSceneGraph->update(gt);
-	CheckAircraftBounds();
-	BackGroundMovement(gt);
-	EnemiesMovement(gt);
-	Input(gt);
-	mPlayerAircraft->move(XMFLOAT3(playerVelocity.x,playerVelocity.y, 0));
-	mPlayerAircraft->setPosition(mPlayerAircraft->getWorldPosition().x, (mPlayerAircraft->getWorldPosition().y + ((playerVelocity.z * deltaTime)/4)), mPlayerAircraft->getWorldPosition().z);
 
-	mSceneGraph->update(gt);
+		mSceneGraph->update(gt);
+		CheckAircraftBounds();
+		BackGroundMovement(gt);
+		EnemiesMovement(gt);
+		Input(gt);
+		mPlayerAircraft->move(XMFLOAT3(playerVelocity.x, playerVelocity.y, 0));
+		mPlayerAircraft->setPosition(mPlayerAircraft->getWorldPosition().x, (mPlayerAircraft->getWorldPosition().y + ((playerVelocity.z * deltaTime) / 4)), mPlayerAircraft->getWorldPosition().z);
 
+		mSceneGraph->update(gt);
+	
 	return true;
 }
 
 bool GameState::handleEvent(WPARAM btnState)
 {	
-	if (btnState == 'P')
-	{
-		requestStackPush(States::Title);
-	}
+
+		if (btnState == 'P')
+		{
+			SaveCurrentPosition();
+			requestStackPop();
+			requestStackPush(States::Pause);
+		}
 	return true;
 }
 
@@ -85,6 +91,7 @@ void GameState::buildState()
 	mBackground->setScale(10.0, 1.0, 350.0);
 	mBackground->setPosition(0, -0.3f, -mBackground->getWorldScale().z / 10);
 	mSceneGraph->attachChild(std::move(backgroundSprite));
+	LoadSavedPositions();
 
 
 	//////////////////////////////////////////////////////////////////
@@ -232,6 +239,27 @@ void GameState::Input(const GameTimer& gt)
 
 
 	
+}
+
+void GameState::SaveCurrentPosition()
+{
+	mContext->mGame->bgPos = mBackground->getWorldPosition();
+	mContext->mGame->playerPos = mPlayerAircraft->getWorldPosition();
+	mContext->mGame->enemy1Pos = mEnemy->getWorldPosition();
+	mContext->mGame->enemy2Pos = mEnemy2->getWorldPosition();
+	mContext->mGame->ReloadGameState = true;
+}
+
+void GameState::LoadSavedPositions()
+{
+	if (mContext->mGame->ReloadGameState)
+	{
+		mBackground->setPosition(mContext->mGame->bgPos.x, mContext->mGame->bgPos.y, mContext->mGame->bgPos.z);
+		mPlayerAircraft->setPosition(mContext->mGame->playerPos.x, mContext->mGame->playerPos.y, mContext->mGame->playerPos.z);
+		mEnemy->setPosition(mContext->mGame->enemy1Pos.x, mContext->mGame->enemy1Pos.y, mContext->mGame->enemy1Pos.z);
+		mEnemy2->setPosition(mContext->mGame->enemy2Pos.x, mContext->mGame->enemy2Pos.y, mContext->mGame->enemy2Pos.z);
+		mContext->mGame->ReloadGameState = false;
+	}
 }
 
 

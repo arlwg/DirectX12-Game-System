@@ -143,6 +143,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="ScreenTexture.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="PauseState.h" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="ResourceIdentifiers.h" />
     <ClInclude Include="SceneNode.hpp" />

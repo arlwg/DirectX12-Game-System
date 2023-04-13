@@ -23,6 +23,8 @@ private:
 	void								EnemiesMovement(const GameTimer& gt);
 	void								CheckAircraftBounds();
 	void								Input(const GameTimer& gt);
+	void								SaveCurrentPosition();
+	void								LoadSavedPositions();
 
 private:
 	enum Layer
