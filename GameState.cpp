@@ -195,21 +195,22 @@ void GameState::Input(const GameTimer& gt)
 		bool hit = false;
 		if (!hit)
 		{
-			playerVelocity = XMFLOAT3(-playerSpeed/2, playerVelocity.y, playerVelocity.z);
+			playerVelocity = XMFLOAT3(-playerSpeed / 2, playerVelocity.y, playerVelocity.z);
 			mPlayerAircraft->setWorldRotation(mPlayerAircraft->getWorldRotation().x, -0.1, 0.5);
 		}
 	}
-	if (GetAsyncKeyState('D') & 0x8000)
+	if ((GetAsyncKeyState('D') & 0x8000))
 	{
 		bool hit = false;
 		if (!hit)
 		{
-			playerVelocity = XMFLOAT3(+playerSpeed/2, playerVelocity.y, playerVelocity.z);
+			playerVelocity = XMFLOAT3(+playerSpeed / 2, playerVelocity.y, playerVelocity.z);
 			mPlayerAircraft->setWorldRotation(mPlayerAircraft->getWorldRotation().x, 0.1, -0.5);
 		}
 	}
 
-	if (!(GetAsyncKeyState('D') & 0x8000) && !(GetAsyncKeyState('A') & 0x8000))
+	if ((!(GetAsyncKeyState('D') & 0x8000) && !(GetAsyncKeyState('A') & 0x8000)) ||
+		((GetAsyncKeyState('D') & 0x8000) && (GetAsyncKeyState('A') & 0x8000)))
 	{
 		bool hit = false;
 		if (!hit)
@@ -218,7 +219,8 @@ void GameState::Input(const GameTimer& gt)
 			mPlayerAircraft->setWorldRotation(mPlayerAircraft->getWorldRotation().x, 0, 0);
 		}
 	}
-	if (!(GetAsyncKeyState('W') & 0x8000) && !(GetAsyncKeyState('S') & 0x8000))
+	if ((!(GetAsyncKeyState('W') & 0x8000) && !(GetAsyncKeyState('S') & 0x8000)) ||
+		((GetAsyncKeyState('W') & 0x8000) && (GetAsyncKeyState('S') & 0x8000)))
 	{
 		bool hit = false;
 		if (!hit)
