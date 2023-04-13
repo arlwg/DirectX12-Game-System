@@ -3,6 +3,7 @@
 #include "StateIdentifiers.h"
 #include "TitleState.hpp"
 #include "MenuState.h"
+#include "GameState.hpp"
 class CommandQueue;
 const int gNumFrameResources = 3;
 
@@ -202,6 +203,7 @@ void Game::OnKeyPressed(WPARAM btnState)
 {
 	mStateStack.handleEvent(btnState);
 }
+
 
 void Game::OnKeyboardInput(const GameTimer& gt)
 {
@@ -615,6 +617,7 @@ void Game::registerStates()
 {
 	mStateStack.registerState<TitleState>(States::Title);
 	mStateStack.registerState<MenuState>(States::Menu);
+	mStateStack.registerState<GameState>(States::Game);
 }
 
 

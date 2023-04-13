@@ -52,7 +52,6 @@ void World::buildScene()
 	//mBackground->setScale(10.0, 1.0, 350.0);
 	mBackground->setScale(0.0,0.0, 0.0);
 	mBackground->setPosition(0, -0.3f, -mBackground->getWorldScale().z /10);
-	
 	mSceneGraph->attachChild(std::move(backgroundSprite));
 
 	mSceneGraph->build();

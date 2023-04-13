@@ -31,7 +31,7 @@ bool MenuState::handleEvent(WPARAM btnState)
 	{
 		requestStackPop();
 
-		requestStackPush(States::Title);
+		requestStackPush(States::Game);
 	}
 	else if (btnState == '2')
 	{

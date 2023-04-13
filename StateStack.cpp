@@ -43,6 +43,7 @@ void StateStack::handleEvent(WPARAM btnState)
 	applyPendingChanges();
 }
 
+
 void StateStack::pushState(States::ID stateID)
 {
 	mPendingList.push_back(PendingChange(Push, stateID));
