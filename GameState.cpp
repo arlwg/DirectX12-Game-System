@@ -161,6 +161,7 @@ void GameState::CheckAircraftBounds()
 
 	float pushPowerX = 0.0f;
 	float pushPowerY = 0.0f;
+	float pushPowerZ = 0.0f;
 	if (pos.x > 1.93356)
 	{
 		//push to the left
@@ -175,14 +176,25 @@ void GameState::CheckAircraftBounds()
 	if (pos.y > 1)
 	{
 		//push back
-		pushPowerY = -4.7f;
+		pushPowerY = -5.0f;
 	}
-	if (pos.y < -0.15)
+	if (pos.y < -0.1)
 	{
 		//push forward
-		pushPowerY = 4.7f;
+		pushPowerY = 5.0f;
 	}
-	XMFLOAT3 pusher = XMFLOAT3(pushPowerX, pushPowerY, 0);
+
+	if (pos.z > 1)
+	{
+		//push back
+		pushPowerZ = -5.0f;
+	}
+	if (pos.z < -1.3977)
+	{
+		//push forward
+		pushPowerZ = 5.0f;
+	}
+	XMFLOAT3 pusher = XMFLOAT3(pushPowerX, pushPowerY, pushPowerZ);
 	mPlayerAircraft->move(pusher);
 }
 

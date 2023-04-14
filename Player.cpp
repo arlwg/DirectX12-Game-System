@@ -20,7 +20,7 @@ struct AircraftMover
 	{
 		aircraft.move(velocity);
 
-		if (GetAsyncKeyState('W') & 0x8000)
+		if (GetAsyncKeyState('E') & 0x8000)
 		{
 			bool hit = false;
 			if (!hit)
@@ -28,7 +28,7 @@ struct AircraftMover
 				aircraft.setWorldRotation(-0.3f, aircraft.getWorldRotation().y, aircraft.getWorldRotation().z);
 			}
 		}
-		if (GetAsyncKeyState('S') & 0x8000)
+		if (GetAsyncKeyState('Q') & 0x8000)
 		{
 			bool hit = false;
 			if (!hit)
@@ -67,8 +67,8 @@ struct AircraftMover
 				aircraft.setWorldRotation(aircraft.getWorldRotation().x, 0, 0);
 			}
 		}
-		if ((!(GetAsyncKeyState('W') & 0x8000) && !(GetAsyncKeyState('S') & 0x8000)) ||
-			((GetAsyncKeyState('W') & 0x8000) && (GetAsyncKeyState('S') & 0x8000)))
+		if ((!(GetAsyncKeyState('E') & 0x8000) && !(GetAsyncKeyState('Q') & 0x8000)) ||
+			((GetAsyncKeyState('E') & 0x8000) && (GetAsyncKeyState('Q') & 0x8000)))
 		{
 			bool hit = false;
 			if (!hit)
@@ -92,8 +92,10 @@ Player::Player()
 
 	mKeyBinding['A'] = MoveLeft;
 	mKeyBinding['D'] = MoveRight;
-	mKeyBinding['W'] = MoveUp;
-	mKeyBinding['S'] = MoveDown;
+	mKeyBinding['W'] = MoveForward;
+	mKeyBinding['S'] = MoveBackward;
+	mKeyBinding['E'] = MoveUp;
+	mKeyBinding['Q'] = MoveDown;
 
 	// Set action bindings
 	initializeActions();
@@ -179,8 +181,10 @@ void Player::initializeActions()
 
 	mActionBinding[MoveLeft].action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f, 0.0f));
 	mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(+playerSpeed, 0.f, 0.0f));
-	mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, 0.0f, +playerSpeed));
-	mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, 0.0f, -playerSpeed));
+	mActionBinding[MoveForward].action = derivedAction<Aircraft>(AircraftMover(0.f, 0.0f, +playerSpeed));
+	mActionBinding[MoveBackward].action = derivedAction<Aircraft>(AircraftMover(0.f, 0.0f, -playerSpeed));
+	mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, +playerSpeed,0.0f ));
+	mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed, 0.0f));
 }
 
 bool Player::isRealtimeAction(Action action)
@@ -191,6 +195,8 @@ bool Player::isRealtimeAction(Action action)
 	case MoveRight:
 	case MoveDown:
 	case MoveUp:
+	case MoveForward:
+	case MoveBackward:
 		return true;
 
 	default:

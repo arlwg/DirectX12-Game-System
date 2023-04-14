@@ -17,6 +17,8 @@ public:
 		MoveRight,
 		MoveUp,
 		MoveDown,
+		MoveForward,
+		MoveBackward,
 		ActionCount
 	};
 
