@@ -190,64 +190,7 @@ void GameState::CheckAircraftBounds()
 void GameState::Input(const GameTimer& gt)
 {
 	/*const float deltaTime = gt.DeltaTime();
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		bool hit = false;
-		if (!hit)
-		{
-			playerVelocity = XMFLOAT3(playerVelocity.x, playerVelocity.y, +playerSpeed);
-			mPlayerAircraft->setWorldRotation(-0.3f, mPlayerAircraft->getWorldRotation().y, mPlayerAircraft->getWorldRotation().z);
-		}
-	}
-	if (GetAsyncKeyState('S') & 0x8000)
-	{
-		bool hit = false;
-		if (!hit)
-		{
-
-			playerVelocity = XMFLOAT3(playerVelocity.x, playerVelocity.y, -playerSpeed);
-			mPlayerAircraft->setWorldRotation(0.3f, mPlayerAircraft->getWorldRotation().y, mPlayerAircraft->getWorldRotation().z);
-		}
-	}
-	if (GetAsyncKeyState('A') & 0x8000)
-	{
-		bool hit = false;
-		if (!hit)
-		{
-			playerVelocity = XMFLOAT3(-playerSpeed / 2, playerVelocity.y, playerVelocity.z);
-			mPlayerAircraft->setWorldRotation(mPlayerAircraft->getWorldRotation().x, -0.1, 0.5);
-		}
-	}
-	if ((GetAsyncKeyState('D') & 0x8000))
-	{
-		bool hit = false;
-		if (!hit)
-		{
-			playerVelocity = XMFLOAT3(+playerSpeed / 2, playerVelocity.y, playerVelocity.z);
-			mPlayerAircraft->setWorldRotation(mPlayerAircraft->getWorldRotation().x, 0.1, -0.5);
-		}
-	}
-
-	if ((!(GetAsyncKeyState('D') & 0x8000) && !(GetAsyncKeyState('A') & 0x8000)) ||
-		((GetAsyncKeyState('D') & 0x8000) && (GetAsyncKeyState('A') & 0x8000)))
-	{
-		bool hit = false;
-		if (!hit)
-		{
-			playerVelocity = XMFLOAT3(0, playerVelocity.y, playerVelocity.z);
-			mPlayerAircraft->setWorldRotation(mPlayerAircraft->getWorldRotation().x, 0, 0);
-		}
-	}
-	if ((!(GetAsyncKeyState('W') & 0x8000) && !(GetAsyncKeyState('S') & 0x8000)) ||
-		((GetAsyncKeyState('W') & 0x8000) && (GetAsyncKeyState('S') & 0x8000)))
-	{
-		bool hit = false;
-		if (!hit)
-		{
-			playerVelocity = XMFLOAT3(playerVelocity.x, playerVelocity.y, 0);
-			mPlayerAircraft->setWorldRotation(0, mPlayerAircraft->getWorldRotation().y, mPlayerAircraft->getWorldRotation().z);
-		}
-	}*/
+	*/
 
 
 	

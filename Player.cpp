@@ -19,6 +19,64 @@ struct AircraftMover
 	void operator() (Aircraft& aircraft, const GameTimer&) const
 	{
 		aircraft.move(velocity);
+
+		if (GetAsyncKeyState('W') & 0x8000)
+		{
+			bool hit = false;
+			if (!hit)
+			{
+				aircraft.setWorldRotation(-0.3f, aircraft.getWorldRotation().y, aircraft.getWorldRotation().z);
+			}
+		}
+		if (GetAsyncKeyState('S') & 0x8000)
+		{
+			bool hit = false;
+			if (!hit)
+			{
+
+			
+				aircraft.setWorldRotation(0.3f, aircraft.getWorldRotation().y, aircraft.getWorldRotation().z);
+			}
+		}
+		if (GetAsyncKeyState('A') & 0x8000)
+		{
+			bool hit = false;
+			if (!hit)
+			{
+				
+				aircraft.setWorldRotation(aircraft.getWorldRotation().x, -0.1, 0.5);
+			}
+		}
+		if ((GetAsyncKeyState('D') & 0x8000))
+		{
+			bool hit = false;
+			if (!hit)
+			{
+				
+				aircraft.setWorldRotation(aircraft.getWorldRotation().x, 0.1, -0.5);
+			}
+		}
+
+		if ((!(GetAsyncKeyState('D') & 0x8000) && !(GetAsyncKeyState('A') & 0x8000)) ||
+			((GetAsyncKeyState('D') & 0x8000) && (GetAsyncKeyState('A') & 0x8000)))
+		{
+			bool hit = false;
+			if (!hit)
+			{
+				
+				aircraft.setWorldRotation(aircraft.getWorldRotation().x, 0, 0);
+			}
+		}
+		if ((!(GetAsyncKeyState('W') & 0x8000) && !(GetAsyncKeyState('S') & 0x8000)) ||
+			((GetAsyncKeyState('W') & 0x8000) && (GetAsyncKeyState('S') & 0x8000)))
+		{
+			bool hit = false;
+			if (!hit)
+			{
+				
+				aircraft.setWorldRotation(0, aircraft.getWorldRotation().y, aircraft.getWorldRotation().z);
+			}
+		}
 	}
 
 	XMFLOAT3 velocity;
