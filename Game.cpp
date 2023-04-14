@@ -340,6 +340,7 @@ void Game::registerTexture(std::string Name, std::string fileName)
 
 	mTextures[Name] = std::move(temp);
 }
+
 void Game::LoadTextures()
 {
 	registerTexture("EagleTex", "Eagle.dds");

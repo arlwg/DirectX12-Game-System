@@ -38,6 +38,18 @@ bool GameState::update(const GameTimer& gt)
 		mPlayerAircraft->move(XMFLOAT3(playerVelocity.x, playerVelocity.y, 0));
 		mPlayerAircraft->setPosition(mPlayerAircraft->getWorldPosition().x, (mPlayerAircraft->getWorldPosition().y + ((playerVelocity.z * deltaTime) / 4)), mPlayerAircraft->getWorldPosition().z);
 
+
+		//CommandQueue& commands = mWorld.getCommandQueue();
+	/*mPlayer.handleEvent(commands);
+	mPlayer.handleRealtimeInput(commands);*/
+		while (!mCommandQueue.isEmpty())
+			mSceneGraph->onCommand(mCommandQueue.pop(), gt);
+
+
+		CommandQueue& commands = mCommandQueue;
+		mContext->mPlayer->handleEvent(commands);
+		mContext->mPlayer->handleRealtimeInput(commands);
+
 		mSceneGraph->update(gt);
 	
 	return true;
@@ -177,7 +189,7 @@ void GameState::CheckAircraftBounds()
 
 void GameState::Input(const GameTimer& gt)
 {
-	const float deltaTime = gt.DeltaTime();
+	/*const float deltaTime = gt.DeltaTime();
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		bool hit = false;
@@ -235,7 +247,7 @@ void GameState::Input(const GameTimer& gt)
 			playerVelocity = XMFLOAT3(playerVelocity.x, playerVelocity.y, 0);
 			mPlayerAircraft->setWorldRotation(0, mPlayerAircraft->getWorldRotation().y, mPlayerAircraft->getWorldRotation().z);
 		}
-	}
+	}*/
 
 
 	

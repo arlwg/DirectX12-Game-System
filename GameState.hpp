@@ -6,6 +6,7 @@
 #include "SceneNode.hpp"
 #include "Aircraft.hpp"
 
+#include "CommandQueue.h"
 class GameState : public State
 {
 public:
@@ -50,5 +51,6 @@ private:
 	float playerSpeed = 5.f;
 	float enemySpeed = 5.0f;
 	float backgroundSpeed = 10.0f;
+	CommandQueue						mCommandQueue;
 };
 
