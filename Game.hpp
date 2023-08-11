@@ -118,5 +118,5 @@ public:
 		XMFLOAT3 playerPos = XMFLOAT3(0,0,0);
 		XMFLOAT3 enemy1Pos = XMFLOAT3(0, 0, 0);
 		XMFLOAT3 enemy2Pos = XMFLOAT3(0, 0, 0);
-		XMFLOAT3 bgPos = XMFLOAT3(0, 0, 0);
+		std::vector<XMFLOAT3> spritePositions;
 };

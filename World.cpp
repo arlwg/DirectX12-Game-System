@@ -47,12 +47,12 @@ void World::buildScene()
 	mEnemy2->setWorldRotation(0, XM_PI, 0);
 	mSceneGraph->attachChild(std::move(enemy2));
 
-	std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(mGame));
+	/*std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(mGame));
 	mBackground = backgroundSprite.get();
 	//mBackground->setScale(10.0, 1.0, 350.0);
 	mBackground->setScale(0.0,0.0, 0.0);
 	mBackground->setPosition(0, -0.3f, -mBackground->getWorldScale().z /10);
-	mSceneGraph->attachChild(std::move(backgroundSprite));
+	mSceneGraph->attachChild(std::move(backgroundSprite));*/
 
 	mSceneGraph->build();
 }

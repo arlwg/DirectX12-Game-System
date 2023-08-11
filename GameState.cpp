@@ -10,7 +10,7 @@ GameState::GameState(StateStack* stack, Context* context)
 	, mPlayerAircraft(nullptr)
 	, mEnemy(nullptr)
 	, mEnemy2(nullptr)
-	, mBackground(nullptr)
+	, mBackgroundSprite(nullptr)
 	, mWorldBounds(-1.5f, 1.5f, 200.0f, 0.0f) //Left, Right, Down, Up
 	, mSpawnPosition(0.f, 0.f)
 	, mScrollSpeed(1.0f)
@@ -28,20 +28,19 @@ void GameState::draw()
 bool GameState::update(const GameTimer& gt)
 {
 	const float deltaTime = gt.DeltaTime();
-	//mPlayerAircraft->setVelocity(mPlayerAircraft->getVelocity());
+
 
 		mSceneGraph->update(gt);
 		CheckAircraftBounds();
 		BackGroundMovement(gt);
 		EnemiesMovement(gt);
 		Input(gt);
+
+	
 		mPlayerAircraft->move(XMFLOAT3(playerVelocity.x, playerVelocity.y, 0));
 		mPlayerAircraft->setPosition(mPlayerAircraft->getWorldPosition().x, (mPlayerAircraft->getWorldPosition().y + ((playerVelocity.z * deltaTime) / 4)), mPlayerAircraft->getWorldPosition().z);
 
-
-		//CommandQueue& commands = mWorld.getCommandQueue();
-	/*mPlayer.handleEvent(commands);
-	mPlayer.handleRealtimeInput(commands);*/
+	
 		while (!mCommandQueue.isEmpty())
 			mSceneGraph->onCommand(mCommandQueue.pop(), gt);
 
@@ -76,33 +75,12 @@ void GameState::buildState()
 	mContext->mGame->BuildMaterials();					//
 	/// //////////////////////////////////////////////////
 
-	std::unique_ptr<Aircraft> player(new Aircraft(Aircraft::Eagle, mContext->mGame));
-	mPlayerAircraft = player.get();
-	mPlayerAircraft->setPosition(0, 0.1, -.5f);
-	mPlayerAircraft->setScale(1.4f, 0.8f, 0.9f);
-	mSceneGraph->attachChild(std::move(player));
+	initializePlayer();
+	initializeEnemies();
+	mBackgroundSprite = initializeSprite("Desert", 200, 1, 350);
 
 
-	std::unique_ptr<Aircraft> enemy1(new Aircraft(Aircraft::Raptor, mContext->mGame));
-	mEnemy = enemy1.get();
-	mEnemy->setPosition(-1.5f, 0.1f, 2);
-	mEnemy->setScale(0.9f, 0.9f, 0.9f);
-	mEnemy->setWorldRotation(0, XM_PI, 0);
-	mSceneGraph->attachChild(std::move(enemy1));
-
-	std::unique_ptr<Aircraft> enemy2(new Aircraft(Aircraft::Raptor, mContext->mGame));
-	mEnemy2 = enemy2.get();
-	mEnemy2->setPosition(1.5f, 0.1, 2);
-	mEnemy->setScale(0.9f, 0.9f, 0.9f);
-	mEnemy2->setWorldRotation(0, XM_PI, 0);
-	mSceneGraph->attachChild(std::move(enemy2));
-
-	std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(mContext->mGame));
-	mBackground = backgroundSprite.get();
-	//mBackground->setScale(10.0, 1.0, 350.0);
-	mBackground->setScale(10.0, 1.0, 350.0);
-	mBackground->setPosition(0, -0.3f, -mBackground->getWorldScale().z / 10);
-	mSceneGraph->attachChild(std::move(backgroundSprite));
+	
 	LoadSavedPositions();
 
 
@@ -113,6 +91,62 @@ void GameState::buildState()
 	//
 	mContext->mGame->BuildFrameResources();							//
 	//////////////////////////////////////////////////////////////////
+}
+
+void GameState::initializePlayer()
+{
+	std::unique_ptr<Aircraft> player(new Aircraft(Aircraft::Eagle, mContext->mGame));
+	mPlayerAircraft = player.get();
+	mPlayerAircraft->setPosition(0, 0.1, -.5f);
+	mPlayerAircraft->setScale(1.4f, 0.8f, 0.9f);
+	mSceneGraph->attachChild(std::move(player));
+}
+
+void GameState::initializeEnemies()
+{
+	auto createEnemy = [this](float x, float y, float z) {
+		std::unique_ptr<Aircraft> enemy(new Aircraft(Aircraft::Raptor, mContext->mGame));
+		Aircraft* enemyPtr = enemy.get();
+		enemyPtr->setPosition(x, y, z);
+		enemyPtr->setScale(0.9f, 0.9f, 0.9f);
+		enemyPtr->setWorldRotation(0, XM_PI, 0);
+		mSceneGraph->attachChild(std::move(enemy));
+		return enemyPtr;
+	};
+
+	mEnemy = createEnemy(-1.5f, 0.1f, 2);
+	mEnemy2 = createEnemy(1.5f, 0.1, 2);
+}
+
+
+SpriteNode* GameState::initializeSprite(const std::string& textureName, float xScale, float yScale, float zScale)
+{
+	std::unique_ptr<SpriteNode> sprite(new SpriteNode(mContext->mGame, textureName, xScale, yScale, zScale));
+	SpriteNode* spritePointer = sprite.get();
+	spritePointer->setScale(xScale, yScale, zScale); // Set the scale using the provided values
+	spritePointer->setPosition(0, -0.3f, -spritePointer->getWorldScale().z / 10);
+	mSceneGraph->attachChild(std::move(sprite));
+
+	mSpriteNodes.push_back(spritePointer); // Add the sprite to the vector
+
+	return spritePointer;
+}
+
+void GameState::LoadSavedPositions()
+{
+	if (mContext->mGame->ReloadGameState)
+	{
+		//Load positions for all sprite nodes.
+		for (size_t i = 0; i < mSpriteNodes.size() && i < mContext->mGame->spritePositions.size(); ++i)
+		{
+			mSpriteNodes[i]->setPosition(mContext->mGame->spritePositions[i].x, mContext->mGame->spritePositions[i].y, mContext->mGame->spritePositions[i].z);
+		}
+		
+		mPlayerAircraft->setPosition(mContext->mGame->playerPos.x, mContext->mGame->playerPos.y, mContext->mGame->playerPos.z);
+		mEnemy->setPosition(mContext->mGame->enemy1Pos.x, mContext->mGame->enemy1Pos.y, mContext->mGame->enemy1Pos.z);
+		mEnemy2->setPosition(mContext->mGame->enemy2Pos.x, mContext->mGame->enemy2Pos.y, mContext->mGame->enemy2Pos.z);
+		mContext->mGame->ReloadGameState = false;
+	}
 }
 
 float GameState::GenerateRandomNumber(float lower, float upper)
@@ -134,12 +168,12 @@ void GameState::ResetEnemyPositions(Aircraft* aircraft, float lower, float upper
 void GameState::BackGroundMovement(const GameTimer& gt)
 {
 	const float deltaTime = gt.DeltaTime();
-	mBackground->move(0, 0, -backgroundSpeed * deltaTime);
+	mBackgroundSprite->move(0, 0, -backgroundSpeed * deltaTime);
 
 	//once it below a certain point reset it to desired position
-	if (mBackground->getWorldPosition().z <= -(mBackground->getWorldScale().z / 10 * 2))
+	if (mBackgroundSprite->getWorldPosition().z <= -(mBackgroundSprite->getWorldScale().z / 10 * 2))
 	{
-		mBackground->setPosition(0, -0.3f, -mBackground->getWorldScale().z / 10);
+		mBackgroundSprite->setPosition(0, -0.3f, -mBackgroundSprite->getWorldScale().z / 10);
 	}
 }
 
@@ -210,24 +244,21 @@ void GameState::Input(const GameTimer& gt)
 
 void GameState::SaveCurrentPosition()
 {
-	mContext->mGame->bgPos = mBackground->getWorldPosition();
+	// Clear any existing positions in the Game class
+	mContext->mGame->spritePositions.clear();
+
+	// Iterate through the vector of sprite nodes and save their positions
+	for (SpriteNode* spriteNode : mSpriteNodes)
+	{
+		mContext->mGame->spritePositions.push_back(spriteNode->getWorldPosition());
+	}
 	mContext->mGame->playerPos = mPlayerAircraft->getWorldPosition();
 	mContext->mGame->enemy1Pos = mEnemy->getWorldPosition();
 	mContext->mGame->enemy2Pos = mEnemy2->getWorldPosition();
 	mContext->mGame->ReloadGameState = true;
 }
 
-void GameState::LoadSavedPositions()
-{
-	if (mContext->mGame->ReloadGameState)
-	{
-		mBackground->setPosition(mContext->mGame->bgPos.x, mContext->mGame->bgPos.y, mContext->mGame->bgPos.z);
-		mPlayerAircraft->setPosition(mContext->mGame->playerPos.x, mContext->mGame->playerPos.y, mContext->mGame->playerPos.z);
-		mEnemy->setPosition(mContext->mGame->enemy1Pos.x, mContext->mGame->enemy1Pos.y, mContext->mGame->enemy1Pos.z);
-		mEnemy2->setPosition(mContext->mGame->enemy2Pos.x, mContext->mGame->enemy2Pos.y, mContext->mGame->enemy2Pos.z);
-		mContext->mGame->ReloadGameState = false;
-	}
-}
+
 
 
 

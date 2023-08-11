@@ -7,6 +7,7 @@
 #include "Aircraft.hpp"
 
 #include "CommandQueue.h"
+
 class GameState : public State
 {
 public:
@@ -26,8 +27,11 @@ private:
 	void								Input(const GameTimer& gt);
 	void								SaveCurrentPosition();
 	void								LoadSavedPositions();
+	void								initializePlayer(); 
+	void								initializeEnemies(); 
+	SpriteNode*							initializeSprite(const std::string& textureName, float xScale, float yScale, float zScale);
 
-private:
+	private:
 	enum Layer
 	{
 		Background,
@@ -35,17 +39,16 @@ private:
 		LayerCount
 	};
 
-
 private:
-
-
 	XMFLOAT4							mWorldBounds;
 	XMFLOAT2		    				mSpawnPosition;
 	float								mScrollSpeed;
 	Aircraft* mPlayerAircraft;
-	SpriteNode* mBackground;
+	std::vector<SpriteNode*> mSpriteNodes;
 	Aircraft* mEnemy;
 	Aircraft* mEnemy2;
+
+	SpriteNode* mBackgroundSprite;
 
 	XMFLOAT3 playerVelocity;
 	float playerSpeed = 5.f;
@@ -53,4 +56,3 @@ private:
 	float backgroundSpeed = 10.0f;
 	CommandQueue						mCommandQueue;
 };
-
