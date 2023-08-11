@@ -1,4 +1,6 @@
 #include "State.h"
+
+#include "Game.hpp"
 #include "StateStack.h"
 
 
@@ -19,6 +21,7 @@ State::~State() = default;
 
 void State::requestStackPush(States::ID stateID)
 {
+	mContext->mGame->FlushCommandList();
 	mStack->pushState(stateID);
 }
 

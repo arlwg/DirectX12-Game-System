@@ -49,7 +49,7 @@ public:
 	void registerMaterial(std::string Name, int index);
 	void registerTexture(std::string Name, std::string fileName);
 
-
+	void FlushCommandList() { FlushCommandQueue(); }
 
 
 	std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
